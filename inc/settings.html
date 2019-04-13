@@ -1,0 +1,11 @@
+<div class="wrap">
+	<h1>Your Plugin Page Title</h1>
+	<form method="post" action="options.php"> 
+		<?php 
+			settings_fields( 'affiliate_options' );
+			do_settings_sections( 'affiliate_options' ); 
+		?>	
+		<input type="text" width="200px" name="percentage" placeholder="put % number" value="<?php echo esc_attr( get_option('percentage') ); ?>">
+		<?php submit_button(); ?>
+	</form>
+</div>
