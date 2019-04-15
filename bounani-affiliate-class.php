@@ -20,6 +20,9 @@ class bounaniAffiliate{
 		global $wpdb;
 		$this->wpdb = $wpdb;
 		$this->table_name = $this->wpdb->prefix . 'affiliate'; 
+		$this->init_filters_actions();
+    }
+    function init_filters_actions(){
     	add_action( 'woocommerce_single_product_summary',  array($this,'create_get_url_button' ), 10, 1 );
 		add_action( 'woocommerce_before_add_to_cart_button',  array($this,'add_hidden_infos_to_form' ));
 		add_action( 'wp_enqueue_scripts', array($this,'add_script_ajax_js' ));
@@ -41,13 +44,11 @@ class bounaniAffiliate{
     
     function add_affiliate_style(){
     	if (is_account_page()) {
-    		wp_enqueue_script('jquery-ui-core');// enqueue jQuery UI Core
-		    wp_enqueue_script('jquery-ui-tabs');
-    		wp_enqueue_style( 'dashboard_affiliate_style', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',false,'1.1','all');
-		    wp_enqueue_script( 'dashboard_affiliate_script-bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js',array('jquery'),'1.1','all'); 
-		    wp_enqueue_script( 'dashboard_affiliate_jquery_ui_js', 'https://code.jquery.com/ui/1.12.1/jquery-ui.js',array('jquery'),'1.1',false);  
-		    wp_enqueue_style( 'dashboard_affiliate_jquery_ui_css', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css');  
-		    wp_enqueue_script( 'canvas-js', plugins_url( '/lib/jquery.canvasjs.min.js', __FILE__ ), array('jquery') ,null,false); 
+    		wp_enqueue_style( 'dashboard_affiliate_bootstrap_css', plugins_url('/lib/css/bootstrap.min.css', __FILE__ ));
+		    wp_enqueue_script( 'dashboard_affiliate_bootstrap_js', plugins_url('/lib/js/bootstrap.min.js', __FILE__ ),array('jquery'),null,'all');   
+		    wp_enqueue_script( 'dashboard_affiliate_jquery_ui_js', plugins_url( '/lib/js/jquery-ui.min.js', __FILE__ ), array('jquery') ,null,false); 
+		    wp_enqueue_style( 'dashboard_affiliate_jquery_ui_css', plugins_url( '/lib/css/jquery-ui.min.css', __FILE__ )); 
+		    wp_enqueue_script( 'canvas-js', plugins_url( '/lib/js/jquery.canvasjs.min.js', __FILE__ ), array('jquery') ,null,false); 
     	}
 		wp_enqueue_style( 'core', get_template_directory_uri() . '/style.css' );
         wp_enqueue_style( 'style-affiliate', plugins_url( 'css/style.css', __FILE__ ), array(), null, 'all' );
@@ -186,22 +187,12 @@ class bounaniAffiliate{
     	add_rewrite_rule('^product/([^/]*)/([^/]*)/?', 'index.php?product=$matches[1]&affiliate_token=$matches[2]', 'top'); 
     	add_rewrite_endpoint( 'affiliate', EP_PAGES );
     	add_rewrite_endpoint( 'affiliate_token', EP_ALL);  
-    } 
-
-    function add_affiliate_dashboard_attachement(){ 
-		wp_enqueue_style( 'dashboard_affiliate_style', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',false,'1.1','all');
-	    wp_enqueue_script( 'dashboard_affiliate_script-bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js',array('jquery'),'1.1','all'); 
-	    wp_enqueue_script( 'dashboard_affiliate_jquery_ui_js', 'https://code.jquery.com/ui/1.12.1/jquery-ui.min.js',array('jquery'),'1.1','all');  
-	    wp_enqueue_style( 'dashboard_affiliate_jquery_ui_css', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css');  
-	    wp_enqueue_script( 'canvas-js', plugins_url( '/lib/jquery.canvasjs.min.js', __FILE__ ), array('jquery') ); 
-		wp_enqueue_style( 'core', get_template_directory_uri() . '/style.css' );
-    }
+    }  
 
 	function affiliate_user_dashboard() {
 		if ( !current_user_can( 'manage_options' ) )  {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-		}
-        // add_action( 'wp_enqueue_scripts', array($this,'add_affiliate_dashboard_attachement')); 
+		} 
 
 
 		$affiliate_ports =  $this->get_current_user_posts();  

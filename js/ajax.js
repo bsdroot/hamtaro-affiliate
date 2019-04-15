@@ -29,8 +29,7 @@ jQuery( document ).ready(function($) {
       'plugin_url': ajax_object.plugin_url       
     };  
    
-    $.post(ajax_object.ajax_url, data, function(response) {    
-      console.log(response);
+    $.post(ajax_object.ajax_url, data, function(response) {     
     });  
   });
 
@@ -40,15 +39,14 @@ jQuery( document ).ready(function($) {
     };  
    
     $.post(ajax_object.ajax_url, data, function(response) { 
-      response = JSON.parse(response);    
-      console.log($("#chartorder"));
+      response = JSON.parse(response);     
       var options = {
           animationEnabled: true,
           title: {
-            text: "GDP Growth Rate - 2016"
+            text: "Affiliate gain"
           },
           axisY: {
-            title: "Growth Rate (in %)",
+            title: "Rate (in %)",
             suffix: "%",
             includeZero: false
           },
