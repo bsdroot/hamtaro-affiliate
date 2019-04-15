@@ -83,7 +83,7 @@ class bounaniAffiliate{
 		update_post_meta($post , 'product_id', $_POST['product_id']); 
 		
     	echo "$shop/$token";
-    	die;
+    	
     }
 
  	function get_current_user_posts($params = null){
@@ -119,7 +119,7 @@ class bounaniAffiliate{
 	   }
 	   array_walk($affilat_post_chart,'convert_to_int');
 	   print_r(json_encode($affilat_post_chart));
-	   die;
+	
 	}
 
 	function affiliate_post_type() { 
